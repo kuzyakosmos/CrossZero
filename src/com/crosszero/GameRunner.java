@@ -4,6 +4,8 @@ public class GameRunner {
 
     public static void main(String[] args) {
         Field field = new Field();
-        field.printCells();
+        field.init();
+        field.setCell(3, "x");
+        field.printField();
     }
 }
