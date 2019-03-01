@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 class Field {
 
+    private String field[] = new String[9];
+
     Field() {
         Arrays.fill(field, "*");
     }
-
-    private String field[] = new String[9];
 
     public String[] getField() {
         return field;
@@ -16,5 +16,13 @@ class Field {
 
     public void setField(String[] field) {
         this.field = field;
+    }
+
+    public String getCell(int num) {
+        return field[num];
+    }
+
+    public void setCell(int num, String cell) {
+        this.field[num] = cell;
     }
 }

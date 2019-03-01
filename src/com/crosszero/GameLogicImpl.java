@@ -1,36 +1,48 @@
 package com.crosszero;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameLogicImpl implements GameLogic {
 
-    Field field = new Field();
+    Field field;
+    Scanner scanner;
+    ArrayList<Integer> validInputs;
+
+    public GameLogicImpl() {
+
+        validInputs = new ArrayList<>();
+        field = new Field();
+        scanner = new Scanner(System.in);
+
+        for (int i = 1; i < 10; i++)
+            validInputs.add(i);
+    }
 
     @Override
     public void start() {
         printField();
-        do {
+
+        for (int i = 0; i < 9;) {
+            System.out.println(i);
             humanTurn();
-            if (isFull() == false)
+            i++;
+            if (i != 9)
                 computersTurn();
-        } while (isFull() == false);
-
-        if (isFull())
-            System.out.println("Поле заполнено. Боевая ничья!");
-
+                i++;
+        }
+        System.out.println("Поле заполнено, но победителя нет. Боевая ничья!");
     }
 
     @Override
     public void computersTurn() {
 
-//        Генерим случайное число [1;9]
-        int num = 0 + (int) (Math.random() * 8);
+//        Генерим случайное число [0;8]
+        int num = (int) (Math.random() * 8);
 
         if (isCellEmpty(num)) {
             System.out.println("Ход компьютера");
-            String[] cells = field.getField();
-            cells[num] = "O";
-            field.setField(cells);
+            field.setCell(num, "O");
             printField();
         } else {
             computersTurn();
@@ -41,11 +53,10 @@ public class GameLogicImpl implements GameLogic {
 
         System.out.println("Ваш ход");
 
-        Scanner scanner = new Scanner(System.in);
         int num = scanner.nextInt();
 
 //        Проверяем корректность num
-        if (!(num >= 1 && num <= 9)) {
+        if (!validInputs.contains(num)) {
             System.out.println("Введен некорректный номер клетки. Введите число от 1 до 9 включительно.");
             humanTurn();
         }
@@ -57,9 +68,7 @@ public class GameLogicImpl implements GameLogic {
         if (isCellEmpty(num)) {
 
 //            Если все ок - присваиваем клетке нужное значение
-            String[] cells = field.getField();
-            cells[num] = "X";
-            field.setField(cells);
+            field.setCell(num, "X");
             printField();
             //TODO почему отсюда опять залезает в if???
 
@@ -72,33 +81,20 @@ public class GameLogicImpl implements GameLogic {
     @Override
     public void printField() {
 
-        final String[] fieldForPrint;
-        fieldForPrint = field.getField();
+//        final String[] field.getCell();
+//        field.getCell() = field.getField();
 
         System.out.println(" _____");
-        System.out.println("|" + fieldForPrint[0] + " " + fieldForPrint[1] + " " + fieldForPrint[2] + "|");
-        System.out.println("|" + fieldForPrint[3] + " " + fieldForPrint[4] + " " + fieldForPrint[5] + "|");
-        System.out.println("|" + fieldForPrint[6] + " " + fieldForPrint[7] + " " + fieldForPrint[8] + "|");
+        System.out.println("|" + field.getCell(0) + " " + field.getCell(1) + " " + field.getCell(2) + "|");
+        System.out.println("|" + field.getCell(3) + " " + field.getCell(4) + " " + field.getCell(5) + "|");
+        System.out.println("|" + field.getCell(6) + " " + field.getCell(7) + " " + field.getCell(8) + "|");
         System.out.println(" ‾‾‾‾‾");
         System.out.println();
     }
 
     @Override
-    public boolean isFull() {
-        for (int i = 0; i < 9; i++) {
-            if (field.getField()[i] == "*")
-                return false;
-        }
-        return true;
-    }
-
-    @Override
     public boolean isCellEmpty(int num) {
-        if (field.getField()[num] == "*") {
-            return true;
-        } else {
-            return false;
-        }
+        return field.getField()[num].equals("*");
     }
 
     @Override

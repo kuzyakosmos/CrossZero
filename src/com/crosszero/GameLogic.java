@@ -23,13 +23,6 @@ public interface GameLogic {
     void printField();
 
     /**
-     * Проверка поля на наличие свободных клеток
-     *
-     * @return true - если заполнено, false - если еще есть свободные клетки
-     */
-    boolean isFull();
-
-    /**
      * Проверка клетки
      *
      * @param num номер клетки
