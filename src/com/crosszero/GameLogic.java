@@ -33,8 +33,25 @@ public interface GameLogic {
     /**
      * Проверка на победу
      *
+     * @param symb - для какого игрока проверяем
      * @return true - если на данном ходе есть выигравший
      */
     //TODO можно ли добавить в интерфейс вывод на экран оповещения о победе?
-    boolean isWin();
+    boolean checkWin(String symb);
+
+    /**
+     * Проверка диагонали
+     *
+     * @param symb - для какого игрока проверяем
+     * @return true если победа, false - нет
+     */
+    boolean checkDiagonal(String symb);
+
+    /**
+     * Проверка прямых линий
+     *
+     * @param symb - для какого игрока проверяем
+     * @return true если победа, false - нет
+     */
+    boolean checkLanes(String symb);
 }

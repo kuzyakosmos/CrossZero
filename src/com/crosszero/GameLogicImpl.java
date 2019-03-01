@@ -28,9 +28,9 @@ public class GameLogicImpl implements GameLogic {
             humanTurn();
             i++;
             if (i > 4) {
-                if (isWin()) {
+                if (checkWin("X")) {
                     System.out.println("Поздравляю, Вы выиграли!");
-                    break;
+                    return;
                 }
             }
 
@@ -38,9 +38,9 @@ public class GameLogicImpl implements GameLogic {
                 computersTurn();
                 i++;
                 if (i > 5) {
-                    if (isWin()) {
+                    if (checkWin("O")) {
                         System.out.println("К сожалению, Вы проиграли!");
-                        break;
+                        return;
                     }
                 }
             }
@@ -62,6 +62,7 @@ public class GameLogicImpl implements GameLogic {
         }
     }
 
+    @Override
     public void humanTurn() {
 
         System.out.println("Ваш ход");
@@ -71,7 +72,7 @@ public class GameLogicImpl implements GameLogic {
         if (!validInputs.contains(num)) {
             System.out.println("Введен некорректный номер клетки. Введите число от 1 до 9 включительно.");
             humanTurn();
-            return;
+            return; //TODO ПАЧИМУ??77
         }
 
         num--;
@@ -89,10 +90,6 @@ public class GameLogicImpl implements GameLogic {
 
     @Override
     public void printField() {
-
-//        final String[] field.getCell();
-//        field.getCell() = field.getField();
-
         System.out.println(" _____");
         System.out.println("|" + field.getCell(0) + " " + field.getCell(1) + " " + field.getCell(2) + "|");
         System.out.println("|" + field.getCell(3) + " " + field.getCell(4) + " " + field.getCell(5) + "|");
@@ -107,7 +104,44 @@ public class GameLogicImpl implements GameLogic {
     }
 
     @Override
-    public boolean isWin() {
+    public boolean checkWin(String symb) {
+        if (checkDiagonal(symb) || checkLanes(symb)) return true;
+        return false;
+    }
+
+    @Override
+    public boolean checkDiagonal(String symb) {
+
+        boolean toright, toleft;
+        toright = true;
+        toleft = true;
+
+        for (int num = 0; num < 9; num += 4) {
+            toright = toright & (field.getCell(num) == symb);
+        }
+
+        for (int num = 2; num < 7; num += 2) {
+            toleft = toleft & (field.getCell(num) == symb);
+        }
+
+        if (toright || toleft) return true;
+
+        return false;
+    }
+
+    @Override
+    public boolean checkLanes(String symb) {
+
+        for (int num = 1; num < 8; num += 3) {
+            if ((field.getCell(num - 1) == symb) & (field.getCell(num) == symb) & (field.getCell(num + 1) == symb))
+                return true;
+        }
+
+        for (int num = 3; num < 6; num++) {
+            if ((field.getCell(num - 3) == symb) & (field.getCell(num) == symb) & (field.getCell(num + 3) == symb))
+                return true;
+        }
+
         return false;
     }
 }
