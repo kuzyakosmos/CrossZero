@@ -8,33 +8,35 @@ public class GameLogicImpl implements GameLogic {
 
     @Override
     public void start() {
+        printField();
         do {
             humanTurn();
-            computersTurn();
-        } while (isFull() == true);
+            if (isFull() == false)
+                computersTurn();
+        } while (isFull() == false);
+
+        if (isFull())
+            System.out.println("Поле заполнено. Боевая ничья!");
+
     }
 
     @Override
     public void computersTurn() {
 
 //        Генерим случайное число [1;9]
-        int num = 1 + (int) (Math.random() * 9);
+        int num = 0 + (int) (Math.random() * 8);
 
-        //        Проверяем, что выбранная клетка свободна для хода
-
-        if (field.getField()[num] == "-") {
-//            Если все ок - присваиваем клетке нужное значение
+        if (isCellEmpty(num)) {
             System.out.println("Ход компьютера");
-            field.setCell(num, "O");
+            String[] cells = field.getField();
+            cells[num] = "O";
+            field.setField(cells);
             printField();
-
         } else {
             computersTurn();
         }
-
     }
 
-    @Override
     public void humanTurn() {
 
         System.out.println("Ваш ход");
@@ -52,10 +54,15 @@ public class GameLogicImpl implements GameLogic {
         num--;
 
 //        Проверяем, что выбранная клетка свободна для хода
-        if (field.getField()[num] == "-") {
+        if (isCellEmpty(num)) {
+
 //            Если все ок - присваиваем клетке нужное значение
-            field.setCell(num, "X");
+            String[] cells = field.getField();
+            cells[num] = "X";
+            field.setField(cells);
             printField();
+            //TODO почему отсюда опять залезает в if???
+
         } else {
             System.out.println("Клетка уже заполнена! Сделайте выбор еще раз.");
             humanTurn();
@@ -68,21 +75,30 @@ public class GameLogicImpl implements GameLogic {
         final String[] fieldForPrint;
         fieldForPrint = field.getField();
 
-        System.out.println(fieldForPrint[0] + " " + fieldForPrint[1] + " " + fieldForPrint[2]);
-        System.out.println(fieldForPrint[3] + " " + fieldForPrint[4] + " " + fieldForPrint[5]);
-        System.out.println(fieldForPrint[6] + " " + fieldForPrint[7] + " " + fieldForPrint[8]);
-
+        System.out.println(" _____");
+        System.out.println("|" + fieldForPrint[0] + " " + fieldForPrint[1] + " " + fieldForPrint[2] + "|");
+        System.out.println("|" + fieldForPrint[3] + " " + fieldForPrint[4] + " " + fieldForPrint[5] + "|");
+        System.out.println("|" + fieldForPrint[6] + " " + fieldForPrint[7] + " " + fieldForPrint[8] + "|");
+        System.out.println(" ‾‾‾‾‾");
         System.out.println();
     }
 
     @Override
     public boolean isFull() {
         for (int i = 0; i < 9; i++) {
-            if (field.getField()[i] == "-")
-                System.out.println("Поле заполнено. Боевая ничья!");
-            return true;
+            if (field.getField()[i] == "*")
+                return false;
         }
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean isCellEmpty(int num) {
+        if (field.getField()[num] == "*") {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
