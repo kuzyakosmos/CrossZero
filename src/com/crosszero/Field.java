@@ -14,10 +14,6 @@ class Field {
         return field;
     }
 
-    public void setField(String[] field) {
-        this.field = field;
-    }
-
     public String getCell(int num) {
         return field[num];
     }

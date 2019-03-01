@@ -24,14 +24,13 @@ public class GameLogicImpl implements GameLogic {
         printField();
 
         for (int i = 0; i < 9;) {
-            System.out.println(i);
             humanTurn();
             i++;
             if (i != 9)
                 computersTurn();
                 i++;
         }
-        System.out.println("Поле заполнено, но победителя нет. Боевая ничья!");
+        System.out.println("Поле заполнено, а победителя по-прежнему нет. Боевая ничья!");
     }
 
     @Override
