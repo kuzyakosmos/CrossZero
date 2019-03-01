@@ -23,12 +23,27 @@ public class GameLogicImpl implements GameLogic {
     public void start() {
         printField();
 
-        for (int i = 0; i < 9;) {
+        for (int i = 0; i < 9; ) {
+
             humanTurn();
             i++;
-            if (i != 9)
+            if (i > 4) {
+                if (isWin()) {
+                    System.out.println("Поздравляю, Вы выиграли!");
+                    break;
+                }
+            }
+
+            if (i != 9) {
                 computersTurn();
                 i++;
+                if (i > 5) {
+                    if (isWin()) {
+                        System.out.println("К сожалению, Вы проиграли!");
+                        break;
+                    }
+                }
+            }
         }
         System.out.println("Поле заполнено, а победителя по-прежнему нет. Боевая ничья!");
     }
@@ -36,7 +51,6 @@ public class GameLogicImpl implements GameLogic {
     @Override
     public void computersTurn() {
 
-//        Генерим случайное число [0;8]
         int num = (int) (Math.random() * 8);
 
         if (isCellEmpty(num)) {
@@ -54,19 +68,15 @@ public class GameLogicImpl implements GameLogic {
 
         int num = scanner.nextInt();
 
-//        Проверяем корректность num
         if (!validInputs.contains(num)) {
             System.out.println("Введен некорректный номер клетки. Введите число от 1 до 9 включительно.");
             humanTurn();
+            return;
         }
 
-//        Изменяем num для удобства работы с массивом
         num--;
 
-//        Проверяем, что выбранная клетка свободна для хода
         if (isCellEmpty(num)) {
-
-//            Если все ок - присваиваем клетке нужное значение
             field.setCell(num, "X");
             printField();
             //TODO почему отсюда опять залезает в if???
