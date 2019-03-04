@@ -3,3 +3,5 @@
 .idea
 out
 test
+src/com/crosszero/Test.java
+src/com/crosszero/ExternalAppConfig.java

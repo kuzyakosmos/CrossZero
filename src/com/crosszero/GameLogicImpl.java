@@ -119,29 +119,23 @@ public class GameLogicImpl implements GameLogic {
         for (int num = 0; num < 9; num += 4) {
             toright = toright & (field.getCell(num) == symb);
         }
-
         for (int num = 2; num < 7; num += 2) {
             toleft = toleft & (field.getCell(num) == symb);
         }
-
         if (toright || toleft) return true;
-
         return false;
     }
 
     @Override
     public boolean checkLanes(String symb) {
-
         for (int num = 1; num < 8; num += 3) {
             if ((field.getCell(num - 1) == symb) & (field.getCell(num) == symb) & (field.getCell(num + 1) == symb))
                 return true;
         }
-
         for (int num = 3; num < 6; num++) {
             if ((field.getCell(num - 3) == symb) & (field.getCell(num) == symb) & (field.getCell(num + 3) == symb))
                 return true;
         }
-
         return false;
     }
 }
